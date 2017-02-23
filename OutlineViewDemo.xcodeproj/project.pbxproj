@@ -11,16 +11,34 @@
 		DDBCD1651E5F5E89007BC263 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DDBCD1641E5F5E89007BC263 /* main.m */; };
 		DDBCD1671E5F5E89007BC263 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DDBCD1661E5F5E89007BC263 /* Assets.xcassets */; };
 		DDBCD16A1E5F5E89007BC263 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDBCD1681E5F5E89007BC263 /* MainMenu.xib */; };
+		DDBCD1731E5F60F2007BC263 /* OutlineItem.m in Sources */ = {isa = PBXBuildFile; fileRef = DDBCD1721E5F60F2007BC263 /* OutlineItem.m */; };
+		DDBCD1791E5F6488007BC263 /* StarredOutlineItemCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDBCD1781E5F6488007BC263 /* StarredOutlineItemCellView.m */; };
+		DDBCD17C1E5F6495007BC263 /* OutlineItemCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDBCD17B1E5F6495007BC263 /* OutlineItemCellView.m */; };
+		DDBCD1801E5F65E0007BC263 /* OutlineRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDBCD17F1E5F65E0007BC263 /* OutlineRowView.m */; };
+		DDBCD1831E5F6607007BC263 /* OutlineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDBCD1821E5F6607007BC263 /* OutlineViewController.m */; };
+		DDBCD1881E5F684E007BC263 /* DataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = DDBCD1871E5F684E007BC263 /* DataObject.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		DDBCD15D1E5F5E89007BC263 /* OutlineViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OutlineViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		DDBCD1601E5F5E89007BC263 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		DDBCD1611E5F5E89007BC263 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		DDBCD1641E5F5E89007BC263 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		DDBCD1661E5F5E89007BC263 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DDBCD1601E5F5E89007BC263 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = OutlineViewDemo/AppDelegate.h; sourceTree = "<group>"; };
+		DDBCD1611E5F5E89007BC263 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = OutlineViewDemo/AppDelegate.m; sourceTree = "<group>"; };
+		DDBCD1641E5F5E89007BC263 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = main.m; path = OutlineViewDemo/main.m; sourceTree = "<group>"; };
+		DDBCD1661E5F5E89007BC263 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = OutlineViewDemo/Assets.xcassets; sourceTree = "<group>"; };
 		DDBCD1691E5F5E89007BC263 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		DDBCD16B1E5F5E89007BC263 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DDBCD16B1E5F5E89007BC263 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = OutlineViewDemo/Info.plist; sourceTree = "<group>"; };
+		DDBCD1711E5F60F2007BC263 /* OutlineItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OutlineItem.h; path = OutlineViewDemo/OutlineItem.h; sourceTree = "<group>"; };
+		DDBCD1721E5F60F2007BC263 /* OutlineItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OutlineItem.m; path = OutlineViewDemo/OutlineItem.m; sourceTree = "<group>"; };
+		DDBCD1771E5F6488007BC263 /* StarredOutlineItemCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StarredOutlineItemCellView.h; path = OutlineViewDemo/StarredOutlineItemCellView.h; sourceTree = "<group>"; };
+		DDBCD1781E5F6488007BC263 /* StarredOutlineItemCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StarredOutlineItemCellView.m; path = OutlineViewDemo/StarredOutlineItemCellView.m; sourceTree = "<group>"; };
+		DDBCD17A1E5F6495007BC263 /* OutlineItemCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OutlineItemCellView.h; path = OutlineViewDemo/OutlineItemCellView.h; sourceTree = "<group>"; };
+		DDBCD17B1E5F6495007BC263 /* OutlineItemCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OutlineItemCellView.m; path = OutlineViewDemo/OutlineItemCellView.m; sourceTree = "<group>"; };
+		DDBCD17E1E5F65E0007BC263 /* OutlineRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OutlineRowView.h; path = OutlineViewDemo/OutlineRowView.h; sourceTree = "<group>"; };
+		DDBCD17F1E5F65E0007BC263 /* OutlineRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OutlineRowView.m; path = OutlineViewDemo/OutlineRowView.m; sourceTree = "<group>"; };
+		DDBCD1811E5F6607007BC263 /* OutlineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OutlineViewController.h; path = OutlineViewDemo/OutlineViewController.h; sourceTree = "<group>"; };
+		DDBCD1821E5F6607007BC263 /* OutlineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OutlineViewController.m; path = OutlineViewDemo/OutlineViewController.m; sourceTree = "<group>"; };
+		DDBCD1861E5F684E007BC263 /* DataObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataObject.h; path = OutlineViewDemo/DataObject.h; sourceTree = "<group>"; };
+		DDBCD1871E5F684E007BC263 /* DataObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DataObject.m; path = OutlineViewDemo/DataObject.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,7 +55,8 @@
 		DDBCD1541E5F5E89007BC263 = {
 			isa = PBXGroup;
 			children = (
-				DDBCD15F1E5F5E89007BC263 /* OutlineViewDemo */,
+				DDBCD1841E5F66C3007BC263 /* Classes */,
+				DDBCD1851E5F66DB007BC263 /* Supporting Files */,
 				DDBCD15E1E5F5E89007BC263 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -50,23 +69,34 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		DDBCD15F1E5F5E89007BC263 /* OutlineViewDemo */ = {
+		DDBCD1841E5F66C3007BC263 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
 				DDBCD1601E5F5E89007BC263 /* AppDelegate.h */,
 				DDBCD1611E5F5E89007BC263 /* AppDelegate.m */,
-				DDBCD1661E5F5E89007BC263 /* Assets.xcassets */,
-				DDBCD1681E5F5E89007BC263 /* MainMenu.xib */,
-				DDBCD16B1E5F5E89007BC263 /* Info.plist */,
-				DDBCD1631E5F5E89007BC263 /* Supporting Files */,
+				DDBCD1861E5F684E007BC263 /* DataObject.h */,
+				DDBCD1871E5F684E007BC263 /* DataObject.m */,
+				DDBCD1711E5F60F2007BC263 /* OutlineItem.h */,
+				DDBCD1721E5F60F2007BC263 /* OutlineItem.m */,
+				DDBCD17A1E5F6495007BC263 /* OutlineItemCellView.h */,
+				DDBCD17B1E5F6495007BC263 /* OutlineItemCellView.m */,
+				DDBCD17E1E5F65E0007BC263 /* OutlineRowView.h */,
+				DDBCD17F1E5F65E0007BC263 /* OutlineRowView.m */,
+				DDBCD1811E5F6607007BC263 /* OutlineViewController.h */,
+				DDBCD1821E5F6607007BC263 /* OutlineViewController.m */,
+				DDBCD1771E5F6488007BC263 /* StarredOutlineItemCellView.h */,
+				DDBCD1781E5F6488007BC263 /* StarredOutlineItemCellView.m */,
 			);
-			path = OutlineViewDemo;
+			name = Classes;
 			sourceTree = "<group>";
 		};
-		DDBCD1631E5F5E89007BC263 /* Supporting Files */ = {
+		DDBCD1851E5F66DB007BC263 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				DDBCD1661E5F5E89007BC263 /* Assets.xcassets */,
+				DDBCD16B1E5F5E89007BC263 /* Info.plist */,
 				DDBCD1641E5F5E89007BC263 /* main.m */,
+				DDBCD1681E5F5E89007BC263 /* MainMenu.xib */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -142,7 +172,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				DDBCD1651E5F5E89007BC263 /* main.m in Sources */,
+				DDBCD1831E5F6607007BC263 /* OutlineViewController.m in Sources */,
+				DDBCD1791E5F6488007BC263 /* StarredOutlineItemCellView.m in Sources */,
 				DDBCD1621E5F5E89007BC263 /* AppDelegate.m in Sources */,
+				DDBCD1801E5F65E0007BC263 /* OutlineRowView.m in Sources */,
+				DDBCD17C1E5F6495007BC263 /* OutlineItemCellView.m in Sources */,
+				DDBCD1881E5F684E007BC263 /* DataObject.m in Sources */,
+				DDBCD1731E5F60F2007BC263 /* OutlineItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,6 +191,7 @@
 				DDBCD1691E5F5E89007BC263 /* Base */,
 			);
 			name = MainMenu.xib;
+			path = OutlineViewDemo;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
