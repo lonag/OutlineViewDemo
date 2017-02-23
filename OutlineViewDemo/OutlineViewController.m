@@ -131,6 +131,33 @@
 
 - (void)toggleStarForItemAtIndex:(NSInteger)oldIndex {
 
+	//
+	// 1. Remove item from the old position
+	//
+	DataObject *oldObject = self.items[oldIndex].dataObject;
+	[self.items removeObjectAtIndex:oldIndex];
+
+	//
+	// 2. Create a new model with inverted Star
+	//
+	DataObject *newObject = [[DataObject alloc] initWithTitle:oldObject.title starred:!oldObject.starred];
+
+	//
+	// 3. Move Starred item to the top, Unstarred to the bottom
+	//
+	OutlineItem *newItem = [[OutlineItem alloc] initWithDataObject:newObject];
+	NSInteger newIndex = (newObject.starred ? 0 : self.items.count);
+	[self.items insertObject:newItem atIndex:newIndex];
+
+	//
+	// 4. Notify outline view of model changes
+	//
+	if ([NSUserDefaults.standardUserDefaults boolForKey:@"UseMoveAPI"]) {
+		[self.outlineView moveItemAtIndex:oldIndex inParent:nil toIndex:newIndex inParent:nil];
+	} else {
+		[self.outlineView removeItemsAtIndexes:[NSIndexSet indexSetWithIndex:oldIndex] inParent:nil withAnimation:NSTableViewAnimationSlideUp];
+		[self.outlineView insertItemsAtIndexes:[NSIndexSet indexSetWithIndex:newIndex] inParent:nil withAnimation:NSTableViewAnimationSlideDown];
+	}
 }
 
 @end
