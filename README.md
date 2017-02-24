@@ -8,10 +8,11 @@
 1. It becomes Unstarred and moves to the bottom
 1. Double-Click any Unstarred item
 1. It becomes Starred and moves to the top
-1. Press and hold `Shift` during Double-Click
+
+Press and hold `Shift` during Double-Click to slow down animation, press and hold `Option` to avoid animation.
 
 ## Problem
 
 I want the item to animate transition between states, but instead it immediately becomes the new cell and then animates.
 
-**How?**
+**How do I do this?**

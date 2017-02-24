@@ -59,7 +59,8 @@
 	[super viewDidLoad];
 
 	self.outlineView.doubleAction = @selector(toggleStar:);
-	self.outlineView.rowHeight = 44.0;
+	self.outlineView.rowSizeStyle = NSTableViewRowSizeStyleCustom;
+	self.outlineView.intercellSpacing = CGSizeZero;
 	self.outlineView.dataSource = self;
 	self.outlineView.delegate = self;
 }
@@ -107,6 +108,10 @@
 	return rowView;
 }
 
+- (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(OutlineItem *)item {
+	return (item.dataObject.starred ? 64.0 : 44.0);
+}
+
 #pragma mark - User Actions
 
 - (IBAction)toggleStar:(id)sender {
@@ -122,19 +127,34 @@
 	if ((NSApp.currentEvent.modifierFlags & NSEventModifierFlagShift) > 0) {
 		// Press Shift to make animation slower
 		NSAnimationContext.currentContext.duration *= 10.0;
+	} else if ((NSApp.currentEvent.modifierFlags & NSEventModifierFlagOption) > 0) {
+		// Press Option to avoid animation
+		NSAnimationContext.currentContext.duration = 0.0;
 	}
 
 	[self.outlineView beginUpdates];
 
-	[self toggleStarForItemAtIndex:selectedRow];
+	NSInteger newIndex = [self toggleStarForItemAtIndex:selectedRow];
 
 	[self.outlineView endUpdates];
+
+	// Warning: AppKit does not handle new height when you reload item after move
+	//          This results in mis-aligned cell view frame leading to bad layout
+	//          To fix resize animation, we must adjust cell view frame manually!
+	//          Note that timing is important, change frame only after endUpdates
+	NSTableRowView *rowView = [self.outlineView rowViewAtRow:newIndex makeIfNecessary:NO];
+	CGRect rowViewFrame = rowView.frame;
+	NSTableCellView *cellView = [self.outlineView viewAtColumn:0 row:newIndex makeIfNecessary:NO];
+	CGRect cellViewFrame = cellView.frame;
+	cellViewFrame.size.height = CGRectGetHeight(rowViewFrame);
+	cellView.frame = cellViewFrame;
+
 	[NSAnimationContext endGrouping];
 }
 
 #pragma mark - Private API
 
-- (void)toggleStarForItemAtIndex:(NSInteger)oldIndex {
+- (NSInteger)toggleStarForItemAtIndex:(NSInteger)oldIndex {
 
 	//
 	// 1. Remove item from the old position
@@ -161,8 +181,14 @@
 	OutlineItem *movedItem = [self.outlineView itemAtRow:newIndex];
 	[self.outlineView reloadItem:movedItem];
 	[self.outlineView scrollRowToVisible:newIndex];
-	OutlineRowView *rowView = [self.outlineView rowViewAtRow:newIndex makeIfNecessary:YES];
+
+	//
+	// 5. Change row view attributes manually
+	//
+	OutlineRowView *rowView = [self.outlineView rowViewAtRow:newIndex makeIfNecessary:NO];
 	rowView.emphasizedBackgroundColor = newItem.emphasizedBackgroundColor;
+
+	return newIndex;
 }
 
 @end

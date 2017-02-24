@@ -17,7 +17,7 @@
 
 		NSTextField *label = [NSTextField labelWithString:@""];
 		label.selectable = NO;
-		label.font = [NSFont systemFontOfSize:20.0 weight:NSFontWeightSemibold];
+		label.font = [NSFont systemFontOfSize:30.0 weight:NSFontWeightSemibold];
 		label.translatesAutoresizingMaskIntoConstraints = NO;
 		[self addSubview:label];
 		NSLayoutConstraint *labelLeading = [label.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:20.0];
