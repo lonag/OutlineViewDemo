@@ -12,6 +12,9 @@
 
 - (void)drawSelectionInRect:(NSRect)dirtyRect {
 	NSColor *backgroundColor = (self.emphasized ? (self.emphasizedBackgroundColor ?: NSColor.alternateSelectedControlColor) : NSColor.secondarySelectedControlColor);
+	if (self.groupRowStyle) {
+		backgroundColor = [backgroundColor colorWithAlphaComponent:0.25];
+	}
 	[backgroundColor setFill];
 	NSRectFillUsingOperation(dirtyRect, NSCompositingOperationSourceOver);
 }

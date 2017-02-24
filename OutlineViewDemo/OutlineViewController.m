@@ -112,6 +112,10 @@
 	return cellView;
 }
 
+- (BOOL)outlineView:(NSOutlineView *)outlineView isGroupItem:(id)item {
+	return [item isKindOfClass:NSNumber.class];
+}
+
 - (NSTableRowView *)outlineView:(NSOutlineView *)outlineView rowViewForItem:(id)item {
 	NSString *const Identifier = @"OutlineRowView";
 	OutlineRowView *rowView = [outlineView makeViewWithIdentifier:Identifier owner:nil];
@@ -226,7 +230,7 @@
 	[self.outlineView expandItem:newParent];
 	[self.outlineView reloadItem:oldItem];
 	NSUInteger targetRow = [self.outlineView rowForItem:newItem];
-	[self.outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:targetRow] byExtendingSelection:YES];
+	[self.outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:targetRow] byExtendingSelection:NO];
 	[self.outlineView scrollRowToVisible:targetRow];
 
 	//
