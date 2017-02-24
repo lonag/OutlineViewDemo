@@ -29,7 +29,7 @@
 }
 
 - (NSColor *)emphasizedBackgroundColor {
-	return (self.dataObject.starred ? NSColor.orangeColor : NSColor.keyboardFocusIndicatorColor);
+	return (self.dataObject.starred ? NSColor.orangeColor : nil);
 }
 
 @end

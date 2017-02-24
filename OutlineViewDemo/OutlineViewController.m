@@ -11,10 +11,11 @@
 #import "OutlineItem.h"
 #import "OutlineRowView.h"
 #import "DataObject.h"
+#import "HeaderCellView.h"
 
 @interface OutlineViewController () <NSOutlineViewDataSource, NSOutlineViewDelegate>
 
-@property (nonatomic, strong, readonly) NSMutableArray <OutlineItem *> *items;
+@property (nonatomic, strong, readonly) NSMutableArray <NSMutableArray <OutlineItem *> *> *items;
 @property (nonatomic, strong) NSOutlineView *outlineView;
 
 @end
@@ -24,9 +25,9 @@
 - (instancetype)initWithDataObjects:(NSArray<DataObject *> *)objects {
 	NSParameterAssert(objects.count > 1);
 	if ((self = [super init])) {
-		_items = [[NSMutableArray alloc] init];
-		for (DataObject *object in objects) {
-			[_items addObject:[[OutlineItem alloc] initWithDataObject:object]];
+		_items = [[NSMutableArray alloc] initWithObjects:[[NSMutableArray alloc] init], [[NSMutableArray alloc] init], nil];
+		for (DataObject *object in objects.reverseObjectEnumerator) {
+			[self insertDataObject:object atIndex:0];
 		}
 	}
 	return self;
@@ -63,30 +64,44 @@
 	self.outlineView.intercellSpacing = CGSizeZero;
 	self.outlineView.dataSource = self;
 	self.outlineView.delegate = self;
+	[self.outlineView expandItem:nil expandChildren:YES];
 }
 
 #pragma mark - NSOutlineViewDataSource
 
-- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(OutlineItem *)item {
-	return (item ? 0 : self.items.count);
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
+	if (item == nil) {
+		return self.items.count;
+	} else if ([item isKindOfClass:NSNumber.class]) {
+		BOOL isStarred = [item boolValue];
+		return [self collectionForStarred:isStarred].count;
+	} else {
+		return 0;
+	}
 }
 
-- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)position ofItem:(OutlineItem *)item {
-	return (item ? nil : self.items[position]);
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)position ofItem:(id)item {
+	if (item == nil) {
+		BOOL isStarred = (position == 0);
+		return @(isStarred);
+	} else {
+		BOOL isStarred = [item boolValue];
+		return [self collectionForStarred:isStarred][position];
+	}
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {
-	return NO;
+	return [item isKindOfClass:NSNumber.class];
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(OutlineItem *)item {
-	return item.dataObject;
+	return ([item isKindOfClass:OutlineItem.class] ? [item dataObject] : item);
 }
 
 #pragma mark - NSOutlineViewDelegate
 
-- (NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn *)tableColumn item:(OutlineItem *)item {
-	Class cellViewClass = item.cellViewClass;
+- (NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn *)tableColumn item:(id)item {
+	Class cellViewClass = ([item isKindOfClass:OutlineItem.class] ? [item cellViewClass] : HeaderCellView.class);
 	NSString *cellViewIdentifier = NSStringFromClass(cellViewClass);
 	NSTableCellView *cellView = [outlineView makeViewWithIdentifier:cellViewIdentifier owner:nil];
 	if (cellView == nil) {
@@ -97,29 +112,40 @@
 	return cellView;
 }
 
-- (NSTableRowView *)outlineView:(NSOutlineView *)outlineView rowViewForItem:(OutlineItem *)item {
+- (NSTableRowView *)outlineView:(NSOutlineView *)outlineView rowViewForItem:(id)item {
 	NSString *const Identifier = @"OutlineRowView";
 	OutlineRowView *rowView = [outlineView makeViewWithIdentifier:Identifier owner:nil];
 	if (rowView == nil) {
 		rowView = [[OutlineRowView alloc] init];
 		rowView.identifier = Identifier;
 	}
-	rowView.emphasizedBackgroundColor = item.emphasizedBackgroundColor;
+	rowView.emphasizedBackgroundColor = ([item isKindOfClass:OutlineItem.class] ? [item emphasizedBackgroundColor] : nil);
 	return rowView;
 }
 
-- (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(OutlineItem *)item {
-	return (item.dataObject.starred ? 64.0 : 44.0);
+- (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item {
+	return ([item isKindOfClass:OutlineItem.class] ? ([item dataObject].starred ? 64.0 : 44.0) : 32.0);
 }
 
 #pragma mark - User Actions
 
 - (IBAction)toggleStar:(id)sender {
-	NSInteger selectedRow = [self.outlineView rowForView:sender];
-	if (selectedRow < 0) {
-		selectedRow = self.outlineView.selectedRow;
+	NSInteger clickedRow = [self.outlineView rowForView:sender];
+	if (clickedRow < 0) {
+		clickedRow = self.outlineView.selectedRow;
 	}
-	if (selectedRow < 0) {
+	if (clickedRow < 0) {
+		return;
+	}
+
+	// Expand or Collapse header on Double-Click
+	id item = [self.outlineView itemAtRow:clickedRow];
+	if ([item isKindOfClass:NSNumber.class]) {
+		if ([self.outlineView isItemExpanded:item]) {
+			[self.outlineView collapseItem:item];
+		} else {
+			[self.outlineView expandItem:item];
+		}
 		return;
 	}
 
@@ -134,7 +160,7 @@
 
 	[self.outlineView beginUpdates];
 
-	NSInteger newIndex = [self toggleStarForItemAtIndex:selectedRow];
+	NSInteger newIndex = [self toggleStarForItemAtIndex:clickedRow];
 
 	[self.outlineView endUpdates];
 
@@ -154,41 +180,62 @@
 
 #pragma mark - Private API
 
-- (NSInteger)toggleStarForItemAtIndex:(NSInteger)oldIndex {
+- (NSMutableArray <OutlineItem *> *)collectionForStarred:(BOOL)isStarred {
+	return (isStarred ? self.items.firstObject : self.items.lastObject);
+}
+
+- (OutlineItem *)insertDataObject:(DataObject *)object atIndex:(NSUInteger)position {
+	NSMutableArray <OutlineItem *> *collection = [self collectionForStarred:object.starred];
+	OutlineItem *item = [[OutlineItem alloc] initWithDataObject:object];
+	[collection insertObject:item atIndex:position];
+	return item;
+}
+
+- (NSInteger)toggleStarForItemAtIndex:(NSInteger)sourceRow {
 
 	//
 	// 1. Remove item from the old position
 	//
-	DataObject *oldObject = self.items[oldIndex].dataObject;
-	[self.items removeObjectAtIndex:oldIndex];
+	OutlineItem *oldItem = [self.outlineView itemAtRow:sourceRow];
+	DataObject *oldObject = oldItem.dataObject;
+	NSMutableArray <OutlineItem *> *oldCollection = [self collectionForStarred:oldObject.starred];
+	NSUInteger oldPosition = [oldCollection indexOfObject:oldItem];
+	[oldCollection removeObject:oldItem];
 
 	//
-	// 2. Create a new model with inverted Star
+	// 2. Create inverted model
 	//
 	DataObject *newObject = [[DataObject alloc] initWithTitle:oldObject.title starred:!oldObject.starred];
 
 	//
-	// 3. Move Starred item to the top, Unstarred to the bottom
+	// 3. Move item to the top of its section
 	//
-	OutlineItem *newItem = [[OutlineItem alloc] initWithDataObject:newObject];
-	NSInteger newIndex = (newObject.starred ? 0 : self.items.count);
-	[self.items insertObject:newItem atIndex:newIndex];
+	NSUInteger newPosition = 0;
+	OutlineItem *newItem = [self insertDataObject:newObject atIndex:newPosition];
 
 	//
 	// 4. Notify outline view of model changes
 	//
-	[self.outlineView moveItemAtIndex:oldIndex inParent:nil toIndex:newIndex inParent:nil];
-	OutlineItem *movedItem = [self.outlineView itemAtRow:newIndex];
-	[self.outlineView reloadItem:movedItem];
-	[self.outlineView scrollRowToVisible:newIndex];
+	id oldParent = @(oldObject.starred);
+	id newParent = @(newObject.starred);
+	[self.outlineView moveItemAtIndex:oldPosition inParent:oldParent toIndex:newPosition inParent:newParent];
 
 	//
-	// 5. Change row view attributes manually
+	// 5. Reload new item to update contents and height
 	//
-	OutlineRowView *rowView = [self.outlineView rowViewAtRow:newIndex makeIfNecessary:NO];
+	[self.outlineView expandItem:newParent];
+	[self.outlineView reloadItem:oldItem];
+	NSUInteger targetRow = [self.outlineView rowForItem:newItem];
+	[self.outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:targetRow] byExtendingSelection:YES];
+	[self.outlineView scrollRowToVisible:targetRow];
+
+	//
+	// 6. Change row view attributes manually
+	//
+	OutlineRowView *rowView = [self.outlineView rowViewAtRow:targetRow makeIfNecessary:NO];
 	rowView.emphasizedBackgroundColor = newItem.emphasizedBackgroundColor;
 
-	return newIndex;
+	return targetRow;
 }
 
 @end

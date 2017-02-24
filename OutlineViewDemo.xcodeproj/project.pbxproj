@@ -17,6 +17,7 @@
 		DDBCD1801E5F65E0007BC263 /* OutlineRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDBCD17F1E5F65E0007BC263 /* OutlineRowView.m */; };
 		DDBCD1831E5F6607007BC263 /* OutlineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDBCD1821E5F6607007BC263 /* OutlineViewController.m */; };
 		DDBCD1881E5F684E007BC263 /* DataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = DDBCD1871E5F684E007BC263 /* DataObject.m */; };
+		DDBCD18B1E604250007BC263 /* HeaderCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = DDBCD18A1E604250007BC263 /* HeaderCellView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,8 @@
 		DDBCD1821E5F6607007BC263 /* OutlineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OutlineViewController.m; path = OutlineViewDemo/OutlineViewController.m; sourceTree = "<group>"; };
 		DDBCD1861E5F684E007BC263 /* DataObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataObject.h; path = OutlineViewDemo/DataObject.h; sourceTree = "<group>"; };
 		DDBCD1871E5F684E007BC263 /* DataObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DataObject.m; path = OutlineViewDemo/DataObject.m; sourceTree = "<group>"; };
+		DDBCD1891E604250007BC263 /* HeaderCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HeaderCellView.h; path = OutlineViewDemo/HeaderCellView.h; sourceTree = "<group>"; };
+		DDBCD18A1E604250007BC263 /* HeaderCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HeaderCellView.m; path = OutlineViewDemo/HeaderCellView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +79,8 @@
 				DDBCD1611E5F5E89007BC263 /* AppDelegate.m */,
 				DDBCD1861E5F684E007BC263 /* DataObject.h */,
 				DDBCD1871E5F684E007BC263 /* DataObject.m */,
+				DDBCD1891E604250007BC263 /* HeaderCellView.h */,
+				DDBCD18A1E604250007BC263 /* HeaderCellView.m */,
 				DDBCD1711E5F60F2007BC263 /* OutlineItem.h */,
 				DDBCD1721E5F60F2007BC263 /* OutlineItem.m */,
 				DDBCD17A1E5F6495007BC263 /* OutlineItemCellView.h */,
@@ -175,6 +180,7 @@
 				DDBCD1831E5F6607007BC263 /* OutlineViewController.m in Sources */,
 				DDBCD1791E5F6488007BC263 /* StarredOutlineItemCellView.m in Sources */,
 				DDBCD1621E5F5E89007BC263 /* AppDelegate.m in Sources */,
+				DDBCD18B1E604250007BC263 /* HeaderCellView.m in Sources */,
 				DDBCD1801E5F65E0007BC263 /* OutlineRowView.m in Sources */,
 				DDBCD17C1E5F6495007BC263 /* OutlineItemCellView.m in Sources */,
 				DDBCD1881E5F684E007BC263 /* DataObject.m in Sources */,
@@ -327,6 +333,7 @@
 				DDBCD1701E5F5E89007BC263 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

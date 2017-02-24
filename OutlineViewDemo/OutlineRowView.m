@@ -11,7 +11,7 @@
 @implementation OutlineRowView
 
 - (void)drawSelectionInRect:(NSRect)dirtyRect {
-	NSColor *backgroundColor = (self.emphasized ? (self.emphasizedBackgroundColor ?: NSColor.selectedControlColor) : NSColor.secondarySelectedControlColor);
+	NSColor *backgroundColor = (self.emphasized ? (self.emphasizedBackgroundColor ?: NSColor.alternateSelectedControlColor) : NSColor.secondarySelectedControlColor);
 	[backgroundColor setFill];
 	NSRectFillUsingOperation(dirtyRect, NSCompositingOperationSourceOver);
 }
