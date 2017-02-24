@@ -146,9 +146,9 @@
 	id item = [self.outlineView itemAtRow:clickedRow];
 	if ([item isKindOfClass:NSNumber.class]) {
 		if ([self.outlineView isItemExpanded:item]) {
-			[self.outlineView collapseItem:item];
+			[self.outlineView.animator collapseItem:item];
 		} else {
-			[self.outlineView expandItem:item];
+			[self.outlineView.animator expandItem:item];
 		}
 		return;
 	}
@@ -228,7 +228,7 @@
 	//
 	// 5. Reload new item to update contents and height
 	//
-	[self.outlineView expandItem:newParent];
+	[self.outlineView.animator expandItem:newParent];
 	[self.outlineView reloadItem:oldItem];
 	NSUInteger targetRow = [self.outlineView rowForItem:newItem];
 	[self.outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:targetRow] byExtendingSelection:NO];
