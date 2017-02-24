@@ -119,6 +119,11 @@
 	}
 
 	[NSAnimationContext beginGrouping];
+	if ((NSApp.currentEvent.modifierFlags & NSEventModifierFlagShift) > 0) {
+		// Press Shift to make animation slower
+		NSAnimationContext.currentContext.duration *= 10.0;
+	}
+
 	[self.outlineView beginUpdates];
 
 	[self toggleStarForItemAtIndex:selectedRow];
@@ -152,12 +157,12 @@
 	//
 	// 4. Notify outline view of model changes
 	//
-	if ([NSUserDefaults.standardUserDefaults boolForKey:@"UseMoveAPI"]) {
-		[self.outlineView moveItemAtIndex:oldIndex inParent:nil toIndex:newIndex inParent:nil];
-	} else {
-		[self.outlineView removeItemsAtIndexes:[NSIndexSet indexSetWithIndex:oldIndex] inParent:nil withAnimation:NSTableViewAnimationSlideUp];
-		[self.outlineView insertItemsAtIndexes:[NSIndexSet indexSetWithIndex:newIndex] inParent:nil withAnimation:NSTableViewAnimationSlideDown];
-	}
+	[self.outlineView moveItemAtIndex:oldIndex inParent:nil toIndex:newIndex inParent:nil];
+	OutlineItem *movedItem = [self.outlineView itemAtRow:newIndex];
+	[self.outlineView reloadItem:movedItem];
+	[self.outlineView scrollRowToVisible:newIndex];
+	OutlineRowView *rowView = [self.outlineView rowViewAtRow:newIndex makeIfNecessary:YES];
+	rowView.emphasizedBackgroundColor = newItem.emphasizedBackgroundColor;
 }
 
 @end
