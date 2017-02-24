@@ -164,7 +164,7 @@
 
 	[self.outlineView beginUpdates];
 
-	NSInteger newIndex = [self toggleStarForItemAtIndex:clickedRow];
+	OutlineItem *newItem = [self toggleStarForItemAtIndex:clickedRow];
 
 	[self.outlineView endUpdates];
 
@@ -172,6 +172,7 @@
 	//          This results in mis-aligned cell view frame leading to bad layout
 	//          To fix resize animation, we must adjust cell view frame manually!
 	//          Note that timing is important, change frame only after endUpdates
+	NSUInteger newIndex = [self.outlineView rowForItem:newItem];
 	NSTableRowView *rowView = [self.outlineView rowViewAtRow:newIndex makeIfNecessary:NO];
 	CGRect rowViewFrame = rowView.frame;
 	NSTableCellView *cellView = [self.outlineView viewAtColumn:0 row:newIndex makeIfNecessary:NO];
@@ -195,7 +196,7 @@
 	return item;
 }
 
-- (NSInteger)toggleStarForItemAtIndex:(NSInteger)sourceRow {
+- (OutlineItem *)toggleStarForItemAtIndex:(NSInteger)sourceRow {
 
 	//
 	// 1. Remove item from the old position
@@ -239,7 +240,7 @@
 	OutlineRowView *rowView = [self.outlineView rowViewAtRow:targetRow makeIfNecessary:NO];
 	rowView.emphasizedBackgroundColor = newItem.emphasizedBackgroundColor;
 
-	return targetRow;
+	return newItem;
 }
 
 @end
