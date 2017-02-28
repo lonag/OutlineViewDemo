@@ -179,12 +179,15 @@
 
 	[self.outlineView endUpdates];
 
+	// AppKit reuses original row view as is so we should adjust its color manually
+	NSUInteger newIndex = [self.outlineView rowForItem:newItem];
+	OutlineRowView *rowView = [self.outlineView rowViewAtRow:newIndex makeIfNecessary:NO];
+	rowView.animator.emphasizedBackgroundColor = newItem.emphasizedBackgroundColor;
+
 	// Warning: AppKit does not handle new height when you reload item after move
 	//          This results in mis-aligned cell view frame leading to bad layout
 	//          To fix resize animation, we must adjust cell view frame manually!
 	//          Note that timing is important, change frame only after endUpdates
-	NSUInteger newIndex = [self.outlineView rowForItem:newItem];
-	NSTableRowView *rowView = [self.outlineView rowViewAtRow:newIndex makeIfNecessary:NO];
 	CGRect rowViewFrame = rowView.frame;
 	NSTableCellView *cellView = [self.outlineView viewAtColumn:0 row:newIndex makeIfNecessary:NO];
 	CGRect cellViewFrame = cellView.frame;
@@ -242,14 +245,7 @@
 	[self.outlineView.animator expandItem:newParent];
 	[self.outlineView reloadItem:oldItem];
 	NSUInteger targetRow = [self.outlineView rowForItem:newItem];
-	[self.outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:targetRow] byExtendingSelection:NO];
 	[self.outlineView scrollRowToVisible:targetRow];
-
-	//
-	// 6. Change row view attributes manually
-	//
-	OutlineRowView *rowView = [self.outlineView rowViewAtRow:targetRow makeIfNecessary:NO];
-	rowView.emphasizedBackgroundColor = newItem.emphasizedBackgroundColor;
 
 	return newItem;
 }

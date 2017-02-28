@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OutlineRowView : NSTableRowView
 
-@property (nonatomic, strong, nullable) NSColor *emphasizedBackgroundColor;
+@property (nonatomic, strong, null_resettable) NSColor *emphasizedBackgroundColor;
 
 @end
 

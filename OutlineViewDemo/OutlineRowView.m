@@ -8,6 +8,8 @@
 
 #import "OutlineRowView.h"
 
+#import <QuartzCore/QuartzCore.h>
+
 @implementation OutlineRowView
 
 - (void)drawSelectionInRect:(NSRect)dirtyRect {
@@ -17,6 +19,16 @@
 	}
 	[backgroundColor setFill];
 	NSRectFillUsingOperation(dirtyRect, NSCompositingOperationSourceOver);
+}
+
+#pragma mark - NSAnimatablePropertyContainer
+
++ (id)defaultAnimationForKey:(NSString *)key {
+	if ([key isEqualToString:NSStringFromSelector(@selector(emphasizedBackgroundColor))]) {
+		return CABasicAnimation.animation;
+	} else {
+		return [super defaultAnimationForKey:key];
+	}
 }
 
 #pragma mark - Public API
