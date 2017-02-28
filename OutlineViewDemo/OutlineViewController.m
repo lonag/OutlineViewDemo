@@ -62,9 +62,10 @@
 	self.outlineView.doubleAction = @selector(toggleStar:);
 	self.outlineView.rowSizeStyle = NSTableViewRowSizeStyleCustom;
 	self.outlineView.intercellSpacing = CGSizeZero;
+	self.outlineView.autosaveName = [[NSString alloc] initWithFormat:@"expanded in %@", NSStringFromClass(self.class)];
 	self.outlineView.dataSource = self;
 	self.outlineView.delegate = self;
-	[self.outlineView expandItem:nil expandChildren:YES];
+	self.outlineView.autosaveExpandedItems = YES;
 }
 
 #pragma mark - NSOutlineViewDataSource
@@ -96,6 +97,16 @@
 
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(OutlineItem *)item {
 	return ([item isKindOfClass:OutlineItem.class] ? [item dataObject] : item);
+}
+
+- (id)outlineView:(NSOutlineView *)outlineView persistentObjectForItem:(id)item {
+	NSParameterAssert([item isKindOfClass:NSNumber.class]);
+	return item;
+}
+
+- (id)outlineView:(NSOutlineView *)outlineView itemForPersistentObject:(id)object {
+	NSParameterAssert([object isKindOfClass:NSNumber.class]);
+	return object;
 }
 
 #pragma mark - NSOutlineViewDelegate
